@@ -54,7 +54,8 @@ biblioteki Camomile.
 %build
 %configure
 
-%{__make}
+# build seems racy
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
