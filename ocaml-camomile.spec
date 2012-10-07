@@ -1,4 +1,3 @@
-# $Revision: 1.5 $, $Date: 2011/07/23 06:35:45 $
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
