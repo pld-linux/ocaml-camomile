@@ -2,7 +2,7 @@ Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
 Version:	0.8.3
-Release:	1
+Release:	2
 License:	LGPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/camomile/camomile-%{version}.tar.bz2
