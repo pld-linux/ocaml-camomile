@@ -1,8 +1,23 @@
+#
+# Conditional build:
+%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+
+%ifarch x32
+# not yet available on x32 (ocaml 4.02.1), remove when upstream will support it
+%undefine	with_ocaml_opt
+%endif
+
+%if %{without ocaml_opt}
+%define		no_install_post_strip	1
+# no opt means no native binary, stripping bytecode breaks such programs
+%define		_enable_debug_packages	0
+%endif
+
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
 Version:	0.8.3
-Release:	2
+Release:	3
 License:	LGPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/camomile/camomile-%{version}.tar.bz2
@@ -54,7 +69,7 @@ biblioteki Camomile.
 %configure
 
 # build seems racy
-%{__make} -j1
+%{__make} -j1 byte %{?with_ocaml_opt:opt} unidata unimaps charmap_data locale_data
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -84,7 +99,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc camomileLibrary*.mli
 %dir %{_libdir}/ocaml/camomile
+%if %{with ocaml_opt}
 %{_libdir}/ocaml/camomile/camomile.a
-%{_libdir}/ocaml/camomile/camomile.cm[ax]*
+%{_libdir}/ocaml/camomile/camomile.cmx*
+%endif
+%{_libdir}/ocaml/camomile/camomile.cma*
 %{_libdir}/ocaml/camomile/camomileLibrary*.cm[ixa]*
 %{_libdir}/ocaml/site-lib/camomile
