@@ -2,22 +2,16 @@
 # Conditional build:
 %bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
 
-%ifarch x32
-# not yet available on x32 (ocaml 4.02.1), remove when upstream will support it
+# not yet available on x32 (ocaml 4.02.1), update when upstream will support it
+%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
 %undefine	with_ocaml_opt
-%endif
-
-%if %{without ocaml_opt}
-%define		no_install_post_strip	1
-# no opt means no native binary, stripping bytecode breaks such programs
-%define		_enable_debug_packages	0
 %endif
 
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
 Version:	0.8.3
-Release:	3
+Release:	4
 License:	LGPL v2+ with linking exception
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/camomile/camomile-%{version}.tar.bz2
@@ -28,6 +22,12 @@ BuildRequires:	ocaml-camlp4
 BuildRequires:	ocaml-findlib
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%if %{without ocaml_opt}
+%define		no_install_post_strip	1
+# no opt means no native binary, stripping bytecode breaks such programs
+%define		_enable_debug_packages	0
+%endif
 
 %description
 Camomile is a comprehensive Unicode library for OCaml. Camomile
@@ -101,8 +101,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ocaml/camomile
 %if %{with ocaml_opt}
 %{_libdir}/ocaml/camomile/camomile.a
-%{_libdir}/ocaml/camomile/camomile.cmx*
+%{_libdir}/ocaml/camomile/camomile.cmxa
+%{_libdir}/ocaml/camomile/camomileLibrary*.cma
+%{_libdir}/ocaml/camomile/camomileLibrary*.cmi
 %endif
-%{_libdir}/ocaml/camomile/camomile.cma*
-%{_libdir}/ocaml/camomile/camomileLibrary*.cm[ixa]*
+%{_libdir}/ocaml/camomile/camomile.cma
+%{_libdir}/ocaml/camomile/camomileLibrary*.cmx
+%{_libdir}/ocaml/camomile/camomileLibrary*.cmxa
 %{_libdir}/ocaml/site-lib/camomile
