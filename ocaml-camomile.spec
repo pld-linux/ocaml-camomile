@@ -102,10 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with ocaml_opt}
 %{_libdir}/ocaml/camomile/camomile.a
 %{_libdir}/ocaml/camomile/camomile.cmxa
-%{_libdir}/ocaml/camomile/camomileLibrary*.cma
-%{_libdir}/ocaml/camomile/camomileLibrary*.cmi
-%endif
-%{_libdir}/ocaml/camomile/camomile.cma
 %{_libdir}/ocaml/camomile/camomileLibrary*.cmx
 %{_libdir}/ocaml/camomile/camomileLibrary*.cmxa
+%endif
+%{_libdir}/ocaml/camomile/camomile.cma
+%{_libdir}/ocaml/camomile/camomileLibrary*.cma
+%{_libdir}/ocaml/camomile/camomileLibrary*.cmi
 %{_libdir}/ocaml/site-lib/camomile
