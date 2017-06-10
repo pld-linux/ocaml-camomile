@@ -3,20 +3,21 @@
 %bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
 
 # not yet available on x32 (ocaml 4.02.1), update when upstream will support it
-%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%ifnarch %{ix86} %{x8664} %{arm} aarch64 ppc sparc sparcv9
 %undefine	with_ocaml_opt
 %endif
 
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
-Version:	0.8.3
-Release:	6
+Version:	0.8.5
+Release:	1
 License:	LGPL v2+ with linking exception
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/camomile/camomile-%{version}.tar.bz2
-# Source0-md5:	c6476bdb4138d222bc14396a82205034
-URL:		http://camomile.sourceforge.net/
+#Source0Download: https://github.com/yoriyuki/Camomile/releases
+Source0:	https://github.com/yoriyuki/Camomile/releases/download/rel-%{version}/camomile-%{version}.tar.bz2
+# Source0-md5:	1e25b6cd4efd26ab38a667db18d83f02
+URL:		https://github.com/yoriyuki/Camomile
 BuildRequires:	ocaml >= 3.04-7
 BuildRequires:	ocaml-camlp4
 BuildRequires:	ocaml-findlib
