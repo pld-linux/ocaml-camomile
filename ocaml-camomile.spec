@@ -10,17 +10,16 @@
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
-Version:	0.8.5
-Release:	1
+Version:	1.0.2
+Release:	0.1
 License:	LGPL v2+ with linking exception
 Group:		Libraries
-#Source0Download: https://github.com/yoriyuki/Camomile/releases
-Source0:	https://github.com/yoriyuki/Camomile/releases/download/rel-%{version}/camomile-%{version}.tar.bz2
-# Source0-md5:	1e25b6cd4efd26ab38a667db18d83f02
+Source0:	https://github.com/yoriyuki/Camomile/releases/download/%{version}/camomile-%{version}.tbz
+# Source0-md5:	1a193d43a112bf69eba1bc581d7f4a77
 URL:		https://github.com/yoriyuki/Camomile
-BuildRequires:	ocaml >= 3.04-7
+BuildRequires:	ocaml >= 1:4.02.3
 BuildRequires:	ocaml-camlp4
-BuildRequires:	ocaml-findlib
+BuildRequires:	ocaml-dune
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,46 +66,31 @@ biblioteki Camomile.
 %setup -q -n camomile-%{version}
 
 %build
-%configure
-
-# build seems racy
-%{__make} -j1 byte %{?with_ocaml_opt:opt} unidata unimaps charmap_data locale_data
+dune build --verbose --profile release
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/camomile
 
-%{__make} install \
-	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml \
-	DATADIR=$RPM_BUILD_ROOT%{_datadir}
-
-mv $RPM_BUILD_ROOT%{_libdir}/ocaml/camomile/META $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/camomile
-cat >> $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/camomile/META <<EOF
-directory = "+camomile"
-EOF
-
-# packaged as %doc
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/camomile/camomileLibrary*.mli
+dune install \
+	--verbose \
+	--destdir $RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc Changes README
+%doc CHANGES.md README.md
 %{_datadir}/camomile
 
 %files devel
 %defattr(644,root,root,755)
-%doc camomileLibrary*.mli
 %dir %{_libdir}/ocaml/camomile
+%{_libdir}/ocaml/camomile/META
 %if %{with ocaml_opt}
-%{_libdir}/ocaml/camomile/camomile.a
-%{_libdir}/ocaml/camomile/camomile.cmxa
-%{_libdir}/ocaml/camomile/camomileLibrary*.cmx
-%{_libdir}/ocaml/camomile/camomileLibrary*.cmxa
+%{_libdir}/ocaml/camomile/*.a
+%{_libdir}/ocaml/camomile/*.cmx
+%{_libdir}/ocaml/camomile/*.cmxa
 %endif
-%{_libdir}/ocaml/camomile/camomile.cma
-%{_libdir}/ocaml/camomile/camomileLibrary*.cma
-%{_libdir}/ocaml/camomile/camomileLibrary*.cmi
-%{_libdir}/ocaml/site-lib/camomile
+%{_libdir}/ocaml/camomile/*.cma
+%{_libdir}/ocaml/camomile/*.cmi
