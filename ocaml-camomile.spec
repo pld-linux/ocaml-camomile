@@ -95,14 +95,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/ocaml/camomile/*.cma
 %{_libdir}/ocaml/camomile/*.cmi
 %{_libdir}/ocaml/camomile/*.cmt
+%{_libdir}/ocaml/camomile/dune-package
+%{_libdir}/ocaml/camomile/opam
+%{_libdir}/ocaml/camomile/default_config/*.cma
 %{_libdir}/ocaml/camomile/default_config/*.cmi
 %{_libdir}/ocaml/camomile/default_config/*.cmt
+%{_libdir}/ocaml/camomile/dyn/*.cma
 %{_libdir}/ocaml/camomile/dyn/*.cmi
 %{_libdir}/ocaml/camomile/dyn/*.cmt
+%{_libdir}/ocaml/camomile/lib_default/*.cma
 %{_libdir}/ocaml/camomile/lib_default/*.cmi
 %{_libdir}/ocaml/camomile/lib_default/*.cmt
+%{_libdir}/ocaml/camomile/library/*.cma
 %{_libdir}/ocaml/camomile/library/*.cmi
 %{_libdir}/ocaml/camomile/library/*.cmt
 %{_libdir}/ocaml/camomile/library/*.cmti
@@ -112,23 +119,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/camomile/*.cmx
 %{_libdir}/ocaml/camomile/*.cmxa
 %{_libdir}/ocaml/camomile/default_config/*.a
-%{_libdir}/ocaml/camomile/default_config/*.cma
 %{_libdir}/ocaml/camomile/default_config/*.cmx
 %{_libdir}/ocaml/camomile/default_config/*.cmxa
 %{_libdir}/ocaml/camomile/dyn/*.a
-%{_libdir}/ocaml/camomile/dyn/*.cma
 %{_libdir}/ocaml/camomile/dyn/*.cmx
 %{_libdir}/ocaml/camomile/dyn/*.cmxa
 %{_libdir}/ocaml/camomile/lib_default/*.a
-%{_libdir}/ocaml/camomile/lib_default/*.cma
 %{_libdir}/ocaml/camomile/lib_default/*.cmx
 %{_libdir}/ocaml/camomile/lib_default/*.cmxa
 %{_libdir}/ocaml/camomile/library/*.a
-%{_libdir}/ocaml/camomile/library/*.cma
 %{_libdir}/ocaml/camomile/library/*.cmx
 %{_libdir}/ocaml/camomile/library/*.cmxa
 %endif
-%{_libdir}/ocaml/camomile/*.cma
-%{_libdir}/ocaml/camomile/*.cmi
-%{_libdir}/ocaml/camomile/dune-package
-%{_libdir}/ocaml/camomile/opam
