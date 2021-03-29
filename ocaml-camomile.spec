@@ -7,6 +7,8 @@
 %undefine	with_ocaml_opt
 %endif
 
+%define		_enable_debug_packages	0
+
 Summary:	Camomile - comprehensive Unicode library for OCaml
 Summary(pl.UTF-8):	Camomile - obszerna biblioteka unikodowa dla OCamla
 Name:		ocaml-camomile
@@ -22,12 +24,6 @@ BuildRequires:	ocaml-camlp4
 BuildRequires:	ocaml-dune
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%if %{without ocaml_opt}
-%define		no_install_post_strip	1
-# no opt means no native binary, stripping bytecode breaks such programs
-%define		_enable_debug_packages	0
-%endif
 
 %description
 Camomile is a comprehensive Unicode library for OCaml. Camomile
@@ -52,7 +48,7 @@ Summary:	Camomile Unicode library for OCaml - development part
 Summary(pl.UTF-8):	Biblioteka unikodowa Camomile dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-%requires_eq	ocaml
+%requires_eq ocaml
 
 %description devel
 This package contains files needed to develop OCaml programs using
@@ -81,16 +77,58 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGES.md README.md
+%dir %{_libdir}/ocaml/camomile
+%{_libdir}/ocaml/camomile/META
+%dir %{_libdir}/ocaml/camomile/default_config
+%dir %{_libdir}/ocaml/camomile/dyn
+%dir %{_libdir}/ocaml/camomile/lib_default
+%dir %{_libdir}/ocaml/camomile/library
+%if %{with ocaml_opt}
+%attr(755,root,root) %{_libdir}/ocaml/camomile/*.cmxs
+%attr(755,root,root) %{_libdir}/ocaml/camomile/default_config/*.cmxs
+%attr(755,root,root) %{_libdir}/ocaml/camomile/dyn/*.cmxs
+%attr(755,root,root) %{_libdir}/ocaml/camomile/lib_default/*.cmxs
+%attr(755,root,root) %{_libdir}/ocaml/camomile/library/*.cmxs
+%endif
+#%{_libdir}/ocaml/camomile/library/
 %{_datadir}/camomile
 
 %files devel
 %defattr(644,root,root,755)
-%dir %{_libdir}/ocaml/camomile
-%{_libdir}/ocaml/camomile/META
+%{_libdir}/ocaml/camomile/*.cmi
+%{_libdir}/ocaml/camomile/*.cmt
+%{_libdir}/ocaml/camomile/default_config/*.cmi
+%{_libdir}/ocaml/camomile/default_config/*.cmt
+%{_libdir}/ocaml/camomile/dyn/*.cmi
+%{_libdir}/ocaml/camomile/dyn/*.cmt
+%{_libdir}/ocaml/camomile/lib_default/*.cmi
+%{_libdir}/ocaml/camomile/lib_default/*.cmt
+%{_libdir}/ocaml/camomile/library/*.cmi
+%{_libdir}/ocaml/camomile/library/*.cmt
+%{_libdir}/ocaml/camomile/library/*.cmti
+%{_libdir}/ocaml/camomile/library/*.mli
 %if %{with ocaml_opt}
 %{_libdir}/ocaml/camomile/*.a
 %{_libdir}/ocaml/camomile/*.cmx
 %{_libdir}/ocaml/camomile/*.cmxa
+%{_libdir}/ocaml/camomile/default_config/*.a
+%{_libdir}/ocaml/camomile/default_config/*.cma
+%{_libdir}/ocaml/camomile/default_config/*.cmx
+%{_libdir}/ocaml/camomile/default_config/*.cmxa
+%{_libdir}/ocaml/camomile/dyn/*.a
+%{_libdir}/ocaml/camomile/dyn/*.cma
+%{_libdir}/ocaml/camomile/dyn/*.cmx
+%{_libdir}/ocaml/camomile/dyn/*.cmxa
+%{_libdir}/ocaml/camomile/lib_default/*.a
+%{_libdir}/ocaml/camomile/lib_default/*.cma
+%{_libdir}/ocaml/camomile/lib_default/*.cmx
+%{_libdir}/ocaml/camomile/lib_default/*.cmxa
+%{_libdir}/ocaml/camomile/library/*.a
+%{_libdir}/ocaml/camomile/library/*.cma
+%{_libdir}/ocaml/camomile/library/*.cmx
+%{_libdir}/ocaml/camomile/library/*.cmxa
 %endif
 %{_libdir}/ocaml/camomile/*.cma
 %{_libdir}/ocaml/camomile/*.cmi
+%{_libdir}/ocaml/camomile/dune-package
+%{_libdir}/ocaml/camomile/opam
