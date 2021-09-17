@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+%bcond_without	ocaml_opt	# native optimized binaries (bytecode is always built)
 
 # not yet available on x32 (ocaml 4.02.1), update when upstream will support it
 %ifnarch %{ix86} %{x8664} %{arm} aarch64 ppc sparc sparcv9
@@ -16,12 +16,12 @@ Version:	1.0.2
 Release:	1
 License:	LGPL v2+ with linking exception
 Group:		Libraries
+#Source0Download: https://github.com/yoriyuki/Camomile/releases
 Source0:	https://github.com/yoriyuki/Camomile/releases/download/%{version}/camomile-%{version}.tbz
 # Source0-md5:	1a193d43a112bf69eba1bc581d7f4a77
 URL:		https://github.com/yoriyuki/Camomile
 BuildRequires:	ocaml >= 1:4.02.3
-BuildRequires:	ocaml-camlp4
-BuildRequires:	ocaml-dune
+BuildRequires:	ocaml-dune >= 1.11
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -48,7 +48,7 @@ Summary:	Camomile Unicode library for OCaml - development part
 Summary(pl.UTF-8):	Biblioteka unikodowa Camomile dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-%requires_eq ocaml
+%requires_eq	ocaml
 
 %description devel
 This package contains files needed to develop OCaml programs using
@@ -71,6 +71,11 @@ dune install \
 	--verbose \
 	--destdir $RPM_BUILD_ROOT
 
+# sources
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/camomile{,/default_config,/dyn,/lib_default,/library}/*.ml
+# packaged as %doc
+%{__rm} -r $RPM_BUILD_ROOT%{_prefix}/doc/camomile
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -83,6 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ocaml/camomile/dyn
 %dir %{_libdir}/ocaml/camomile/lib_default
 %dir %{_libdir}/ocaml/camomile/library
+%{_libdir}/ocaml/camomile/*.cma
+%{_libdir}/ocaml/camomile/default_config/*.cma
+%{_libdir}/ocaml/camomile/dyn/*.cma
+%{_libdir}/ocaml/camomile/lib_default/*.cma
+%{_libdir}/ocaml/camomile/library/*.cma
 %if %{with ocaml_opt}
 %attr(755,root,root) %{_libdir}/ocaml/camomile/*.cmxs
 %attr(755,root,root) %{_libdir}/ocaml/camomile/default_config/*.cmxs
@@ -90,26 +100,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/ocaml/camomile/lib_default/*.cmxs
 %attr(755,root,root) %{_libdir}/ocaml/camomile/library/*.cmxs
 %endif
-#%{_libdir}/ocaml/camomile/library/
 %{_datadir}/camomile
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/ocaml/camomile/*.cma
 %{_libdir}/ocaml/camomile/*.cmi
 %{_libdir}/ocaml/camomile/*.cmt
 %{_libdir}/ocaml/camomile/dune-package
 %{_libdir}/ocaml/camomile/opam
-%{_libdir}/ocaml/camomile/default_config/*.cma
 %{_libdir}/ocaml/camomile/default_config/*.cmi
 %{_libdir}/ocaml/camomile/default_config/*.cmt
-%{_libdir}/ocaml/camomile/dyn/*.cma
 %{_libdir}/ocaml/camomile/dyn/*.cmi
 %{_libdir}/ocaml/camomile/dyn/*.cmt
-%{_libdir}/ocaml/camomile/lib_default/*.cma
 %{_libdir}/ocaml/camomile/lib_default/*.cmi
 %{_libdir}/ocaml/camomile/lib_default/*.cmt
-%{_libdir}/ocaml/camomile/library/*.cma
 %{_libdir}/ocaml/camomile/library/*.cmi
 %{_libdir}/ocaml/camomile/library/*.cmt
 %{_libdir}/ocaml/camomile/library/*.cmti
