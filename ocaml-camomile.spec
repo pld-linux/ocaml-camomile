@@ -45,7 +45,7 @@ programów wykorzystujących bibliotekę Camomile.
 
 %package devel
 Summary:	Camomile Unicode library for OCaml - development part
-Summary(pl.UTF-8):	Biblioteka unikodowa Camomile dla OCamla - cześć programistyczna
+Summary(pl.UTF-8):	Biblioteka unikodowa Camomile dla OCamla - część programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %requires_eq	ocaml
